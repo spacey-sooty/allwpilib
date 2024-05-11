@@ -348,7 +348,7 @@ if(WITH_TESTS)
     find_package(Catch2 3 REQUIRED)
     enable_testing()
     add_subdirectory(catch2)
-    include(Catch2)
+    #include(Catch2)
 endif()
 
 add_subdirectory(wpiutil)
