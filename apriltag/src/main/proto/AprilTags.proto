@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package wpi.proto;
+
+import "geometry3d.proto";
+
+option java_package = "edu.wpi.first.apriltag.proto";
+
+message ProtobufAprilTag {
+  int32 ID = 1;
+  ProtobufPose3d pose = 2;
+}
+
+enum ProtobufAprilTagFields {
+  option allow_alias = true;
+  k2022RapidReact = 0;
+  k2023ChargedUp = 1;
+  k2024Crescendo = 2;
+  kDefaultField = 2;
+}
+
+message ProtobufFieldDimensions {
+  double length = 1;
+  double width = 2;
+}
+
+message ProtobufAprilTagFieldLayout {
+  map<int32, ProtobufAprilTag> m_apriltags = 1;
+  ProtobufFieldDimensions fieldDimensions = 2;
+  ProtobufPose3d origin = 3;
+}

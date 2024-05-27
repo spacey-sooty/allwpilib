@@ -14,6 +14,7 @@ ext {
 
     tasks.withType(CppCompile) {
         dependsOn generateTask
+        dependsOn project(':wpimath').generateProto
     }
     splitSetup = {
         it.sources {
@@ -42,8 +43,14 @@ sourceSets {
         resources {
             srcDirs 'src/main/native/resources'
         }
+
+        java {
+            srcDir "${projectDir}/src/generated/main/java"
+        }
     }
 }
+
+cppHeadersZip.dependsOn generateProto
 
 model {
     components {}

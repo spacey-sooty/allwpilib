@@ -15,13 +15,14 @@ ext {
             sleipnirCpp(CppSourceSet) {
                 source {
                     srcDirs 'src/main/native/thirdparty/sleipnir/src'
-                    include '**/*.cpp'
+                    include '**/*.cpp', '**/*.cc'
                 }
                 exportedHeaders {
                     srcDirs 'src/main/native/thirdparty/eigen/include',
                             'src/main/native/thirdparty/fmt/include',
                             'src/main/native/thirdparty/sleipnir/include',
-                            'src/main/native/thirdparty/sleipnir/src'
+                            'src/main/native/thirdparty/sleipnir/src',
+                            "$buildDir/generated/source/proto/main/cpp"
                 }
             }
         }
@@ -38,7 +39,7 @@ cppHeadersZip {
         into '/'
     }
     from("$buildDir/generated/source/proto/main/cpp") {
-        into '/wpimath/protobuf'
+        into '/'
         include '*.h'
     }
     from('src/main/native/thirdparty/sleipnir/include') {
@@ -56,13 +57,17 @@ model {
                     srcDirs 'src/main/native/include',
                             'src/main/native/thirdparty/eigen/include',
                             'src/main/native/thirdparty/gcem/include',
-                            'src/main/native/thirdparty/sleipnir/include'
+                            'src/main/native/thirdparty/sleipnir/include',
+                            "$buildDir/generated/source/proto/main/cpp"
                 }
             }
         }
     }
     binaries {
         all {
+            it.tasks.withType(CppCompile) {
+                it.dependsOn generateProto
+            }
             it.cppCompiler.define 'SLEIPNIR_EXPORTS'
         }
     }

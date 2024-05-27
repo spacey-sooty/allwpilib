@@ -7,13 +7,15 @@ package edu.wpi.first.apriltag;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.wpi.first.apriltag.jni.AprilTagJNI;
+import edu.wpi.first.apriltag.proto.AprilTagProto;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.util.RawFrame;
+import edu.wpi.first.util.protobuf.ProtobufSerializable;
 import java.util.Objects;
 
 /** Represents an AprilTag's metadata. */
 @SuppressWarnings("MemberName")
-public class AprilTag {
+public class AprilTag implements ProtobufSerializable {
   /** The tag's ID. */
   @JsonProperty(value = "ID")
   public int ID;
@@ -79,4 +81,7 @@ public class AprilTag {
     AprilTagJNI.generate36h11AprilTagImage(frame, frame.getNativeObj(), id);
     return frame;
   }
+
+  /** Rotation3d protobuf for serialization. */
+  public static final AprilTagProto proto = new AprilTagProto();
 }
