@@ -12,7 +12,7 @@
 #include <string_view>
 #include <thread>
 
-#include "wpi/DataLog.h"
+#include "wpi/datalog/DataLog.h"
 #include "wpi/condition_variable.h"
 #include "wpi/mutex.h"
 
