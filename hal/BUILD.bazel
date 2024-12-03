@@ -2,7 +2,7 @@ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 
 cc_library(
-    name = "generated_cc_headers",
+                name = "generated_cc_headers",
     hdrs = glob(["src/generated/main/native/include/**"]),
     includes = ["src/generated/main/native/include"],
     strip_include_prefix = "src/generated/main/native/include",
