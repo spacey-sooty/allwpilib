@@ -62,6 +62,15 @@ public final class CommandScheduler implements Sendable, AutoCloseable {
     return instance;
   }
 
+  /**
+   * Creates an instance of the command scheduler to be used in unit tests.
+   *
+   * @return the instance
+   */
+  public static CommandScheduler createUnitTestInstance() {
+    return new CommandScheduler();
+  }
+
   private static final Optional<Command> kNoInterruptor = Optional.empty();
 
   private final Map<Command, Exception> m_composedCommands = new WeakHashMap<>();

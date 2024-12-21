@@ -93,6 +93,11 @@ CommandScheduler& CommandScheduler::GetInstance() {
   return scheduler;
 }
 
+CommandScheduler& CommandScheduler::CreateUnitTestInstance() {
+  CommandScheduler scheduler;
+  return scheduler;
+}
+
 void CommandScheduler::SetPeriod(units::second_t period) {
   m_watchdog.SetTimeout(period);
 }

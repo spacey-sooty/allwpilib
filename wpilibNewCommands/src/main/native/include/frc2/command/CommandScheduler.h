@@ -44,6 +44,13 @@ class CommandScheduler final : public wpi::Sendable,
    */
   static CommandScheduler& GetInstance();
 
+  /**
+   * Creates an instance of the command scheduler to be used in unit tests.
+   *
+   * @return the instance
+   */
+  static CommandScheduler& CreateUnitTestInstance();
+
   ~CommandScheduler() override;
   CommandScheduler(const CommandScheduler&) = delete;
   CommandScheduler& operator=(const CommandScheduler&) = delete;
