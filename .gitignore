@@ -14,7 +14,11 @@ networktables.json
 
 ntcore/connectionlistenertest.json
 ntcore/timesynctest.json
+<<<<<<< HEAD
 
+=======
+wpical/src/main/native/resources/camera_calibration.json
+>>>>>>> 851ac3a0a (yeet tests run now! Camera cal is GIGO tho)
 nanopb_pb2.py
 
 # Created by the jenkins test script
