@@ -89,6 +89,7 @@ target_link_libraries(
     ${OpenCV_LIBS}
     wpigui
     wpiutil
+    wpimath
     Ceres::ceres
 )
 
