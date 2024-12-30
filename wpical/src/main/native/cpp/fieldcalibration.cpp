@@ -29,13 +29,9 @@
 #include "apriltag.h"
 #include "gtsam_meme/wpical_gtsam.h"
 #include "tag36h11.h"
+#include "cameracalibration.h"
 
-struct CameraModel {
-  Eigen::Matrix<double, 3, 3> intrinsic_matrix;
-  Eigen::Matrix<double, 8, 1> distortion_coefficients;
-};
-
-inline CameraModel load_camera_model(std::string path) {
+inline cameracalibration::CameraModel load_camera_model(std::string path) {
   Eigen::Matrix<double, 3, 3> camera_matrix;
   Eigen::Matrix<double, 8, 1> camera_distortion;
 
@@ -90,11 +86,11 @@ inline CameraModel load_camera_model(std::string path) {
     }
   }
 
-  CameraModel camera_model{camera_matrix, camera_distortion};
+  cameracalibration::CameraModel camera_model{camera_matrix, camera_distortion, -1};
   return camera_model;
 }
 
-inline CameraModel load_camera_model(wpi::json json_data) {
+inline cameracalibration::CameraModel load_camera_model(wpi::json json_data) {
   // Camera matrix
   Eigen::Matrix<double, 3, 3> camera_matrix;
 
@@ -115,7 +111,7 @@ inline CameraModel load_camera_model(wpi::json json_data) {
     }
   }
 
-  CameraModel camera_model{camera_matrix, camera_distortion};
+  cameracalibration::CameraModel camera_model{camera_matrix, camera_distortion};
   return camera_model;
 }
 
@@ -380,9 +376,8 @@ int fieldcalibration::calibrate(std::string input_dir_path,
   auto calResult = wpical::OptimizeLayout(layoutGuess, outputMap, gtsam_cal,
                                           fixedTags, cameraNoise);
 
+  // Convert the output AprilTagFieldLayout to a json
   wpi::json observed_map_json = calResult.optimizedLayout;
-
-  // TODO add my tags to the output map
 
   std::ofstream output_file(output_file_path);
   output_file << observed_map_json.dump(4) << std::endl;
