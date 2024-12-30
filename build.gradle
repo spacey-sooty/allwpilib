@@ -31,9 +31,6 @@ allprojects {
         maven {
             url = 'https://frcmaven.wpi.edu/artifactory/ex-mvn'
         }
-        maven {
-            url = "https://maven.photonvision.org/snapshots"
-        }
     }
     if (project.hasProperty('releaseMode')) {
         wpilibRepositories.addAllReleaseRepositories(it)
