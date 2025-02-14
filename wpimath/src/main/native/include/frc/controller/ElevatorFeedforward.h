@@ -217,25 +217,18 @@ class ElevatorFeedforward {
   }
 
   /**
-   * Returns the static gain.
-   *
-   * @return The static gain.
-   */
-  constexpr units::volt_t GetKs() const { return kS; }
-
-  /**
-   * Returns the static gain.
+   * Sets the static gain.
    *
    * @param kS The static gain.
    */
   constexpr void SetKs(units::volt_t kS) { this->kS = kS; }
 
   /**
-   * Returns the gravity gain.
+   * Returns the static gain.
    *
-   * @return The gravity gain.
+   * @return The static gain.
    */
-  constexpr units::volt_t GetKg() const { return kG; }
+  constexpr units::volt_t GetKs() const { return kS; }
 
   /**
    * Returns the gravity gain.
@@ -245,6 +238,20 @@ class ElevatorFeedforward {
   constexpr void SetKg(units::volt_t kG) { this->kG = kG; }
 
   /**
+   * Returns the gravity gain.
+   *
+   * @return The gravity gain.
+   */
+  constexpr units::volt_t GetKg() const { return kG; }
+
+  /**
+   * Sets the velocity gain.
+   *
+   * @param kV The velocity gain.
+   */
+  constexpr void SetKv(units::unit_t<kv_unit> kV) { this->kV = kV; }
+
+  /**
    * Returns the velocity gain.
    *
    * @return The velocity gain.
@@ -252,11 +259,11 @@ class ElevatorFeedforward {
   constexpr units::unit_t<kv_unit> GetKv() const { return kV; }
 
   /**
-   * Returns the velocity gain.
+   * Sets the acceleration gain.
    *
-   * @param kV The velocity gain.
+   * @param kA The acceleration gain.
    */
-  constexpr void SetKv(units::unit_t<kv_unit> kV) { this->kV = kV; }
+  constexpr void SetKa(units::unit_t<ka_unit> kA) { this->kA = kA; }
 
   /**
    * Returns the acceleration gain.
@@ -264,13 +271,6 @@ class ElevatorFeedforward {
    * @return The acceleration gain.
    */
   constexpr units::unit_t<ka_unit> GetKa() const { return kA; }
-
-  /**
-   * Returns the acceleration gain.
-   *
-   * @param kA The acceleration gain.
-   */
-  constexpr void SetKa(units::unit_t<ka_unit> kA) { this->kA = kA; }
 
  private:
   /// The static gain.
