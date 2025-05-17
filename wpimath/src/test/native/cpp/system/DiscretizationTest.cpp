@@ -30,6 +30,23 @@ TEST(DiscretizationTest, DiscretizeA) {
 
 // Check that for a simple second-order system that we can easily analyze
 // analytically,
+TEST(DiscretizationTest, DiscretizeA_Dynamic) {
+  Eigen::MatrixXd contA{{0, 1}, {0, 0}};
+
+  Eigen::VectorXd x0{1, 1};
+  Eigen::MatrixXd discA;
+
+  frc::DiscretizeA(contA, 1_s, &discA);
+  frc::Vectord<2> x1Discrete = discA * x0;
+
+  // We now have pos = vel = 1 and accel = 0, which should give us:
+  frc::Vectord<2> x1Truth{1.0 * x0(0) + 1.0 * x0(1), 0.0 * x0(0) + 1.0 * x0(1)};
+
+  EXPECT_EQ(x1Truth, x1Discrete);
+}
+
+// Check that for a simple second-order system that we can easily analyze
+// analytically,
 TEST(DiscretizationTest, DiscretizeAB) {
   frc::Matrixd<2, 2> contA{{0, 1}, {0, 0}};
   frc::Matrixd<2, 1> contB{0, 1};
@@ -40,6 +57,27 @@ TEST(DiscretizationTest, DiscretizeAB) {
   frc::Matrixd<2, 1> discB;
 
   frc::DiscretizeAB<2, 1>(contA, contB, 1_s, &discA, &discB);
+  frc::Vectord<2> x1Discrete = discA * x0 + discB * u;
+
+  // We now have pos = vel = accel = 1, which should give us:
+  frc::Vectord<2> x1Truth{1.0 * x0(0) + 1.0 * x0(1) + 0.5 * u(0),
+                          0.0 * x0(0) + 1.0 * x0(1) + 1.0 * u(0)};
+
+  EXPECT_EQ(x1Truth, x1Discrete);
+}
+
+// Check that for a simple second-order system that we can easily analyze
+// analytically,
+TEST(DiscretizationTest, DiscretizeAB_Dynamic) {
+  Eigen::MatrixXd contA{{0, 1}, {0, 0}};
+  Eigen::MatrixXd contB{0, 1};
+
+  Eigen::VectorXd x0{1, 1};
+  Eigen::VectorXd u{1};
+  Eigen::MatrixXd discA;
+  Eigen::MatrixXd discB;
+
+  frc::DiscretizeAB(contA, contB, 1_s, &discA, &discB);
   frc::Vectord<2> x1Discrete = discA * x0 + discB * u;
 
   // We now have pos = vel = accel = 1, which should give us:

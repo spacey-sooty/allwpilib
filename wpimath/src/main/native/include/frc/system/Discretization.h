@@ -27,6 +27,19 @@ void DiscretizeA(const Matrixd<States, States>& contA, units::second_t dt,
 }
 
 /**
+ * Discretizes the given continuous A matrix.
+ *
+ * @param contA Continuous system matrix.
+ * @param dt    Discretization timestep.
+ * @param discA Storage for discrete system matrix.
+ */
+void DiscretizeA(const Eigen::MatrixXd& contA, units::second_t dt,
+                 Eigen::MatrixXd* discA) {
+  // A_d = eᴬᵀ
+  *discA = (contA * dt.value()).exp();
+}
+
+/**
  * Discretizes the given continuous A and B matrices.
  *
  * @tparam States Number of states.
@@ -55,6 +68,34 @@ void DiscretizeAB(const Matrixd<States, States>& contA,
 
   *discA = phi.template block<States, States>(0, 0);
   *discB = phi.template block<States, Inputs>(0, States);
+}
+
+/**
+ * Discretizes the given continuous A and B matrices.
+ *
+ * @param contA Continuous system matrix.
+ * @param contB Continuous input matrix.
+ * @param dt    Discretization timestep.
+ * @param discA Storage for discrete system matrix.
+ * @param discB Storage for discrete input matrix.
+ */
+void DiscretizeAB(const Eigen::MatrixXd& contA,
+                  const Eigen::MatrixXd& contB, units::second_t dt,
+                  Eigen::MatrixXd* discA,
+                  Eigen::MatrixXd* discB) {
+  // M = [A  B]
+  //     [0  0]
+  Eigen::MatrixXd M;
+  M.block(0, 0, contA.rows(), contA.cols()) = contA;
+  M.block(0, contA.rows(), contA.rows(), contA.cols()) = contB;
+  M.block(contA.rows(), 0, contA.rows(), contA.cols()).setZero();
+
+  // ϕ = eᴹᵀ = [A_d  B_d]
+  //           [ 0    I ]
+  Eigen::MatrixXd phi = (M * dt.value()).exp();
+
+  *discA = phi.block(0, 0, contA.cols(), contA.cols());
+  *discB = phi.block(contA.cols(), 0, contA.cols(), contA.rows());
 }
 
 /**
