@@ -205,6 +205,7 @@ struct Thread final : public ::wpi::util::SafeThread {
   bool m_consoleLoggerEnabled = false;
   ::wpi::log::FileLogger m_consoleLogger;
   ::wpi::log::StringLogEntry m_messageLog;
+  std::vector<const ::wpi::log::VendorLogger&> vendorLoggers;
 };
 
 struct Instance {

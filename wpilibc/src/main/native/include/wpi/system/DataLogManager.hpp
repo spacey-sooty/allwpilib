@@ -13,6 +13,12 @@ class DataLog;
 
 namespace wpi {
 
+class VendorLogger {
+    virtual void SetLog(const log::DataLog& log) = 0;
+    virtual void ConfigureSchemas() = 0;
+    virtual void Update() = 0;
+};
+
 /**
  * Centralized data log that provides automatic data log file management. It
  * automatically cleans up old files when disk space is low and renames the file
@@ -91,6 +97,11 @@ class DataLogManager final {
    * @param enabled  true to enable, false to disable
    */
   static void LogConsoleOutput(bool enabled);
+
+  /**
+   * Add a vendor logger to run through DataLog.
+   */
+  static void AddVendorLogger(const VendorLogger& logger);
 };
 
 }  // namespace wpi

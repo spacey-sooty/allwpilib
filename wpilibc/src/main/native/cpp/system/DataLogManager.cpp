@@ -52,6 +52,7 @@ struct Thread final : public wpi::util::SafeThread {
   bool m_consoleLoggerEnabled = false;
   wpi::log::FileLogger m_consoleLogger;
   wpi::log::StringLogEntry m_messageLog;
+  std::vector<const wpi::log::VendorLogger&> m_vendorLoggers;
 };
 
 struct Instance {
@@ -284,6 +285,9 @@ void Thread::Main() {
     }
   }
   DriverStation::RemoveRefreshedDataEventHandle(newDataEvent.GetHandle());
+  for (auto logger : m_vendorLoggers) {
+      logger.Update();
+  }
 }
 
 void Thread::StartNTLog() {
@@ -390,4 +394,11 @@ void DataLogManager::LogConsoleOutput(bool enabled) {
       thr->StopConsoleLog();
     }
   }
+}
+
+void DataLogManager::AddVendorLogger(const VendorLogger& logger) {
+    GetInstance().owner.GetThread()->m_vendorLoggers.emplace_back(logger);
+    logger.SetLog(GetLog());
+    logger.ConfigureSchemas();
+    logger.Update();
 }
