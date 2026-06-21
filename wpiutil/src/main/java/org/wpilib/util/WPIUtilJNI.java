@@ -223,6 +223,14 @@ public class WPIUtilJNI {
   public static native int[] waitForObjectsTimeout(int[] handles, double timeout)
       throws InterruptedException;
 
+  /**
+   * Sets core affinity for the current thread to the provided ID.
+   *
+   * @param core_id the ID of the core to set affinity to.
+   * @return True if success or false if failed.
+   */
+  public static native boolean setCoreAffinity(int core_id);
+
   /** Utility class. */
   protected WPIUtilJNI() {}
 }

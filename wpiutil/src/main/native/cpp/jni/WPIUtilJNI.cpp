@@ -10,6 +10,7 @@
 #include "wpi/util/RawFrame.hpp"
 #include "wpi/util/RuntimeCheck.h"
 #include "wpi/util/Synchronization.hpp"
+#include "wpi/util/affinity.hpp"
 #include "wpi/util/jni_util.hpp"
 #include "wpi/util/print.hpp"
 #include "wpi/util/timestamp.hpp"
@@ -464,5 +465,17 @@ Java_org_wpilib_util_WPIUtilJNI_setRawFrameInfo
   f->height = height;
   f->stride = stride;
   f->pixelFormat = pixelFormat;
+}
+
+/*
+ * Class:     org_wpilib_util_WPIUtilJNI
+ * Method:    setCoreAffinity
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL
+Java_org_wpilib_util_WPIUtilJNI_setCoreAffinity
+  (JNIEnv* env, jclass, jint core_id)
+{
+  return static_cast<jboolean>(wpi::util::set_core_affinity(core_id));
 }
 }  // extern "C"
