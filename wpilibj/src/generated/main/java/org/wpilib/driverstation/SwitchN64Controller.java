@@ -10,10 +10,10 @@ import java.util.EnumSet;
 import java.util.Objects;
 import org.wpilib.event.BooleanEvent;
 import org.wpilib.event.EventLoop;
-import org.wpilib.hardware.hal.HAL;
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.telemetry.TelemetryLoggable;
 import org.wpilib.telemetry.TelemetryTable;
+import org.wpilib.util.UsageReporting;
 
 /**
  * Handle input from SwitchN64 controllers connected to the Driver Station.
@@ -145,7 +145,7 @@ public class SwitchN64Controller implements HIDDevice, TelemetryLoggable {
    */
   public SwitchN64Controller(final GenericHID hid) {
     m_hid = Objects.requireNonNull(hid, "Provided HID object cannot be null");
-    HAL.reportUsage("HID", hid.getPort(), "SwitchN64Controller");
+    UsageReporting.reportUsage("HID", hid.getPort(), "SwitchN64Controller");
   }
 
   /**

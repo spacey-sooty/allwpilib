@@ -150,6 +150,14 @@ def wpiutil_extension(srcs = [], header_to_dat_deps = [], extra_hdrs = [], inclu
             ],
         ),
         struct(
+            class_name = "UsageReporting",
+            yml_file = "semiwrap/UsageReporting.yml",
+            header_root = "$(execpath :robotpy-native-wpiutil.copy_headers)",
+            header_file = "$(execpath :robotpy-native-wpiutil.copy_headers)/wpi/util/UsageReporting.hpp",
+            tmpl_class_names = [],
+            trampolines = [],
+        ),
+        struct(
             class_name = "WPyStruct",
             yml_file = "semiwrap/WPyStruct.yml",
             header_root = "wpiutil/src/main/python/wpiutil",
